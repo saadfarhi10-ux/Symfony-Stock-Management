@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la catégorie{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">📂 Détails de la catégorie</h5>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th style="width: 30%">ID</th>
+                                <td>{{ categorie.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nom</th>
+                                <td><strong>{{ categorie.nom }}</strong></td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>
+                                    {{ categorie.description ?: '—' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{ path('app_categorie_index') }}" class="btn btn-sm btn-secondary">
+                        ⬅ Retour à la liste
+                    </a>
+
+                    <div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_produit_edit', {'id': produit.id}) }}"
+                                class="btn btn-sm btn-warning">
+                                    ✏️ Modifier
+                                </a>
+                            {{ include('produit/_delete_form.html.twig', { produit: produit }) }}
+                        {% endif %}    
+                    </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mouvements de stock{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Liste des mouvements de stock</h1>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Produit</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Quantité</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mouvement in mouvement_stocks %}
+            <tr>
+                <td class="text-center">{{ mouvement.id }}</td>
+                <td class="text-center">{{ mouvement.produit.nom }}</td>
+                <td class="text-center">
+                    {% if mouvement.type == 'ENTREE' %}
+                        <span class="badge bg-success">Entrée</span>
+                    {% else %}
+                        <span class="badge bg-danger">Sortie</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">{{ mouvement.quantite }}</td>
+                <td class="text-center">{{ mouvement.date|date('d/m/Y H:i') }}</td>
+                <td class="text-center">
+                    <a class="btn btn-sm btn-primary"
+                       href="{{ path('app_mouvement_stock_show', {'id': mouvement.id}) }}">
+                        Afficher
+                    </a>
+                    <a class="btn btn-sm btn-warning"
+                       href="{{ path('app_mouvement_stock_edit', {'id': mouvement.id}) }}">
+                        Modifier
+                    </a>
+                    {{ include('mouvement_stock/_delete_form.html.twig', { mouvement_stock: mouvement }) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Aucun enregistrement trouvé
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-success mt-3"
+       href="{{ path('app_mouvement_stock_new') }}">
+        Ajouter un mouvement
+    </a>
+</div>
+{% endblock %}

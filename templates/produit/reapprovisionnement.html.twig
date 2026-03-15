@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits à réapprovisionner{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4 text-danger">
+        ⚠️ Produits à réapprovisionner
+    </h1>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Nom</th>
+                <th class="text-center">Catégorie</th>
+                <th class="text-center">Stock</th>
+                <th class="text-center">Seuil</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td class="text-center">{{ produit.id }}</td>
+                <td class="text-center">{{ produit.nom }}</td>
+                <td class="text-center">{{ produit.categorie.nom }}</td>
+                <td class="text-center">
+                    <span class="badge bg-danger">
+                        {{ produit.stock }}
+                    </span>
+                </td>
+                <td class="text-center">{{ produit.seuilAlerte }}</td>
+                <td class="text-center">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-sm btn-warning"
+                       href="{{ path('app_produit_edit', {'id': produit.id}) }}">
+                        Réapprovisionner
+                    </a>
+                {% else %}
+                    -
+                {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Aucun produit à réapprovisionner 🎉
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_produit_index') }}" class="btn btn-secondary mt-3">
+        ⬅ Retour aux produits
+    </a>
+
+</div>
+{% endblock %}

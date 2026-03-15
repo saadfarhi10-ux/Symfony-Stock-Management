@@ -1,0 +1,35 @@
+security:
+
+    # 1️⃣ Comment les mots de passe sont sécurisés
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+
+    # 2️⃣ Où Symfony trouve les utilisateurs
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    # 3️⃣ Pare-feu (login / logout)
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppAuthenticator
+            logout:
+                path: app_logout
+                target: app_login
+
+    # 4️⃣ Qui a accès à quoi
+    access_control:
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/categorie, roles: ROLE_EMPLOYE }
+        - { path: ^/produit, roles: ROLE_EMPLOYE }
+        - { path: ^/mouvement, roles: ROLE_EMPLOYE }
+        - { path: ^/admin, roles: ROLE_ADMIN }

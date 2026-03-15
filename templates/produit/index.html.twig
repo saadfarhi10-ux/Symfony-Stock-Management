@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+
+    <h1 class="mb-4">Liste des produits</h1>
+    <div class="mb-3">
+        <a href="{{ path('app_produit_reapprovisionnement') }}"
+        class="btn btn-danger">
+            Listes des Produits à réapprovisionner ⚠️
+        </a>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Nom</th>
+                <th class="text-center">Catégorie</th>
+                <th class="text-center">Prix</th>
+                <th class="text-center">Stock</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td class="text-center">{{ produit.id }}</td>
+                <td class="text-center">{{ produit.nom }}</td>
+                <td class="text-center">
+                    {{ produit.categorie.nom }}
+                </td>
+                <td class="text-center">{{ produit.prix }} DH</td>
+                <td class="text-center">
+                    {% if produit.stock == 0 %}
+                        <span class="badge bg-danger">Rupture</span>
+                    {% elseif produit.stock < produit.seuilAlerte %}
+                        <span class="badge bg-warning text-dark">
+                            Faible ({{ produit.stock }})
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            {{ produit.stock }}
+                        </span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-sm btn-primary"
+                       href="{{ path('app_produit_show', {'id': produit.id}) }}">
+                        Afficher
+                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-sm btn-warning"
+                        href="{{ path('app_produit_edit', {'id': produit.id}) }}">
+                            Modifier
+                        </a>
+                        {{ include('produit/_delete_form.html.twig', { produit: produit }) }}
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Aucun enregistrement trouvé
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {%if is_granted('ROLE_ADMIN')%}
+        <a class="btn btn-success mt-3" href="{{ path('app_produit_new') }}">
+            Ajouter un produit
+        </a>
+    {% endif %}
+    </div>
+{% endblock %}

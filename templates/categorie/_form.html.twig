@@ -1,0 +1,39 @@
+{{ form_start(form) }}
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">
+            📝 {{ form.vars.value.id ? 'Modifier la catégorie' : 'Ajouter une catégorie' }}
+        </h5>
+    </div>
+
+    <div class="card-body">
+
+        <div class="mb-3">
+            {{ form_label(form.nom, 'Nom de la catégorie', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.nom) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+
+    </div>
+
+    <div class="card-footer d-flex justify-content-between">
+        <a href="{{ path('app_categorie_index') }}" class="btn btn-secondary">
+            ⬅ Retour
+        </a>
+
+        <button type="submit" class="btn btn-success">
+            💾 Enregistrer
+        </button>
+    </div>
+
+</div>
+
+{{ form_end(form) }}
