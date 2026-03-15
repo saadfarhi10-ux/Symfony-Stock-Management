@@ -26,6 +26,17 @@ This project is a web application developed with PHP and Symfony that allows the
 4. Run `php bin/console doctrine:migrations:migrate`
 5. Start the Symfony server
 
+## Screenshots
+
+### Login Page
+![Login](screenshots/login.png)
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Product Management
+![Products](screenshots/products.png)
+
 ## Author
 
 Saad Farhi  
